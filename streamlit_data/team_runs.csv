@@ -1,0 +1,124 @@
+season,batting_team,total_runs,total_balls,total_wickets,run_rate
+2007/08,Chennai Super Kings,698,478,16,8.76
+2007/08,Deccan Chargers,308,244,15,7.57
+2007/08,Delhi Daredevils,269,222,9,7.27
+2007/08,Kings XI Punjab,686,493,28,8.35
+2007/08,Kolkata Knight Riders,552,497,25,6.66
+2007/08,Mumbai Indians,386,367,19,6.31
+2007/08,Rajasthan Royals,773,594,29,7.81
+2007/08,Royal Challengers Bangalore,511,472,33,6.5
+2009/10,Chennai Super Kings,468,370,16,7.59
+2009/10,Deccan Chargers,316,353,27,5.37
+2009/10,Delhi Daredevils,222,249,17,5.35
+2009/10,Kings XI Punjab,293,236,6,7.45
+2009/10,Kolkata Knight Riders,394,341,12,6.93
+2009/10,Mumbai Indians,261,247,17,6.34
+2009/10,Rajasthan Royals,129,121,9,6.4
+2009/10,Royal Challengers Bangalore,234,190,4,7.39
+2011,Chennai Super Kings,314,248,13,7.6
+2011,Deccan Chargers,311,244,6,7.65
+2011,Delhi Daredevils,51,63,3,4.86
+2011,Kings XI Punjab,432,362,20,7.16
+2011,Kochi Tuskers Kerala,89,48,2,11.12
+2011,Kolkata Knight Riders,283,225,10,7.55
+2011,Mumbai Indians,428,370,18,6.94
+2011,Pune Warriors,347,355,21,5.86
+2011,Rajasthan Royals,226,194,10,6.99
+2011,Royal Challengers Bangalore,543,473,24,6.89
+2012,Chennai Super Kings,204,250,18,4.9
+2012,Deccan Chargers,318,244,13,7.82
+2012,Delhi Daredevils,515,374,12,8.26
+2012,Kings XI Punjab,254,246,15,6.2
+2012,Kolkata Knight Riders,506,421,29,7.21
+2012,Mumbai Indians,438,344,14,7.64
+2012,Pune Warriors,154,124,6,7.45
+2012,Rajasthan Royals,327,244,15,8.04
+2012,Royal Challengers Bangalore,264,249,17,6.36
+2013,Chennai Super Kings,546,396,23,8.27
+2013,Delhi Daredevils,303,233,10,7.8
+2013,Kings XI Punjab,584,478,24,7.33
+2013,Kolkata Knight Riders,620,600,27,6.2
+2013,Mumbai Indians,247,240,10,6.17
+2013,Pune Warriors,541,492,31,6.6
+2013,Rajasthan Royals,445,365,13,7.32
+2013,Royal Challengers Bangalore,733,544,23,8.08
+2013,Sunrisers Hyderabad,411,362,20,6.81
+2014,Kings XI Punjab,191,122,4,9.39
+2014,Kolkata Knight Riders,194,123,7,9.46
+2015,Chennai Super Kings,700,604,30,6.95
+2015,Delhi Daredevils,422,345,14,7.34
+2015,Kings XI Punjab,664,618,38,6.45
+2015,Kolkata Knight Riders,389,313,20,7.46
+2015,Mumbai Indians,363,243,8,8.96
+2015,Rajasthan Royals,307,247,11,7.46
+2015,Royal Challengers Bangalore,556,412,19,8.1
+2015,Sunrisers Hyderabad,516,368,18,8.41
+2016,Delhi Daredevils,321,319,20,6.04
+2016,Gujarat Lions,993,794,41,7.5
+2016,Kings XI Punjab,429,370,22,6.96
+2016,Kolkata Knight Riders,629,574,27,6.57
+2016,Mumbai Indians,405,378,24,6.43
+2016,Rising Pune Supergiants,601,459,17,7.86
+2016,Royal Challengers Bangalore,492,351,14,8.41
+2016,Sunrisers Hyderabad,588,468,21,7.54
+2017,Delhi Daredevils,305,246,18,7.44
+2017,Gujarat Lions,148,118,10,7.53
+2017,Kings XI Punjab,290,227,13,7.67
+2017,Kolkata Knight Riders,156,125,8,7.49
+2017,Mumbai Indians,625,503,28,7.46
+2017,Rising Pune Supergiant,502,446,18,6.75
+2017,Royal Challengers Bangalore,152,127,6,7.18
+2017,Sunrisers Hyderabad,154,110,2,8.4
+2019,Chennai Super Kings,332,350,11,5.69
+2019,Delhi Capitals,439,368,27,7.16
+2019,Kings XI Punjab,157,124,9,7.6
+2019,Mumbai Indians,124,113,4,6.58
+2019,Rajasthan Royals,154,124,3,7.45
+2019,Royal Challengers Bangalore,219,226,14,5.81
+2019,Sunrisers Hyderabad,152,128,8,7.12
+2020/21,Chennai Super Kings,751,597,19,7.55
+2020/21,Delhi Capitals,868,614,23,8.48
+2020/21,Kings XI Punjab,967,753,36,7.71
+2020/21,Kolkata Knight Riders,678,506,29,8.04
+2020/21,Mumbai Indians,1071,753,31,8.53
+2020/21,Rajasthan Royals,700,600,40,7.0
+2020/21,Royal Challengers Bangalore,564,470,25,7.2
+2020/21,Sunrisers Hyderabad,720,627,37,6.89
+2021,Chennai Super Kings,518,378,17,8.22
+2021,Delhi Capitals,929,700,29,7.96
+2021,Kolkata Knight Riders,749,613,26,7.33
+2021,Mumbai Indians,551,423,24,7.82
+2021,Punjab Kings,790,618,30,7.67
+2021,Rajasthan Royals,538,505,27,6.39
+2021,Royal Challengers Bangalore,697,614,36,6.81
+2021,Sunrisers Hyderabad,393,373,23,6.32
+2022,Chennai Super Kings,736,610,34,7.24
+2022,Delhi Capitals,1240,963,47,7.73
+2022,Gujarat Titans,1141,867,35,7.9
+2022,Kolkata Knight Riders,1006,726,48,8.31
+2022,Lucknow Super Giants,853,710,43,7.21
+2022,Mumbai Indians,1006,815,42,7.41
+2022,Punjab Kings,1098,856,51,7.7
+2022,Rajasthan Royals,1147,854,35,8.06
+2022,Royal Challengers Bangalore,1686,1232,45,8.21
+2022,Sunrisers Hyderabad,1335,1074,52,7.46
+2024,Chennai Super Kings,1027,720,29,8.56
+2024,Delhi Capitals,773,537,32,8.64
+2024,Gujarat Titans,265,240,17,6.62
+2024,Kolkata Knight Riders,882,653,36,8.1
+2024,Lucknow Super Giants,1067,756,35,8.47
+2024,Mumbai Indians,1172,822,49,8.55
+2024,Punjab Kings,649,491,28,7.93
+2024,Rajasthan Royals,1282,986,45,7.8
+2024,Royal Challengers Bengaluru,953,628,40,9.11
+2024,Sunrisers Hyderabad,919,617,35,8.94
+2025,Chennai Super Kings,1380,1003,48,8.26
+2025,Delhi Capitals,632,455,19,8.33
+2025,Gujarat Titans,1315,872,40,9.05
+2025,Kolkata Knight Riders,522,408,30,7.68
+2025,Lucknow Super Giants,1099,748,27,8.82
+2025,Mumbai Indians,1021,668,29,9.17
+2025,Punjab Kings,1062,691,35,9.22
+2025,Rajasthan Royals,846,602,32,8.43
+2025,Royal Challengers Bengaluru,1565,1058,53,8.88
+2025,Sunrisers Hyderabad,1040,630,22,9.9
