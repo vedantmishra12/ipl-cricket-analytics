@@ -1,8 +1,11 @@
-# app.py — IPL Cricket Analytics Live Dashboard
+# app.py — IPL Cricket Analytics Dashboard + ML Predictor
 import streamlit as st
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
+import pickle
+import json
+import numpy as np
 
 # ── Page Config ──────────────────────────────────────────
 st.set_page_config(
@@ -20,9 +23,31 @@ def load_data():
     team_runs   = pd.read_csv('streamlit_data/team_runs.csv')
     venues      = pd.read_csv('streamlit_data/venue_stats.csv')
     dismissals  = pd.read_csv('streamlit_data/dismissal_stats.csv')
-    return raw, batters, bowlers, team_runs, venues, dismissals
+    ml_df       = pd.read_csv('streamlit_data/ml_df.csv')
+    return raw, batters, bowlers, team_runs, venues, dismissals, ml_df
 
-df, top_batters, top_bowlers, team_runs, venue_stats, dismissal_stats = load_data()
+@st.cache_resource
+def load_ml():
+    with open('streamlit_data/ipl_model.pkl', 'rb') as f:
+        model = pickle.load(f)
+    with open('streamlit_data/le_team.pkl', 'rb') as f:
+        le_team = pickle.load(f)
+    with open('streamlit_data/le_venue.pkl', 'rb') as f:
+        le_venue = pickle.load(f)
+    with open('streamlit_data/le_season.pkl', 'rb') as f:
+        le_season = pickle.load(f)
+    with open('streamlit_data/teams.json', 'r') as f:
+        teams_list = json.load(f)
+    with open('streamlit_data/venues.json', 'r') as f:
+        venues_list = json.load(f)
+    with open('streamlit_data/seasons.json', 'r') as f:
+        seasons_list = json.load(f)
+    with open('streamlit_data/team_winrate.json', 'r') as f:
+        team_winrate = json.load(f)
+    return model, le_team, le_venue, le_season, teams_list, venues_list, seasons_list, team_winrate
+
+df, top_batters, top_bowlers, team_runs, venue_stats, dismissal_stats, ml_df = load_data()
+model, le_team, le_venue, le_season, teams_list, venues_list, seasons_list, team_winrate = load_ml()
 
 # ── Sidebar ───────────────────────────────────────────────
 st.sidebar.image("https://upload.wikimedia.org/wikipedia/en/8/84/IPL_2022_Logo.svg", width=200)
@@ -34,7 +59,8 @@ page = st.sidebar.radio("Navigate", [
     "🏏 Batting Stats",
     "🎳 Bowling Stats",
     "🏟️ Venue Analysis",
-    "📈 Team Performance"
+    "📈 Team Performance",
+    "🤖 Match Predictor"
 ])
 
 seasons = sorted(df['season'].unique(), key=str)
@@ -46,7 +72,7 @@ if selected_season != "All Seasons":
 else:
     df_filtered = df
 
-# ── Helper: dark layout ───────────────────────────────────
+# ── Helper ────────────────────────────────────────────────
 def dark_layout(fig):
     fig.update_layout(
         plot_bgcolor='#0e1117',
@@ -63,7 +89,6 @@ if page == "🏠 Overview":
     st.markdown("### Real data from 2008–2025 IPL seasons")
     st.markdown("---")
 
-    # KPI cards
     col1, col2, col3, col4 = st.columns(4)
     col1.metric("🏟️ Total Matches",    df['match_id'].nunique())
     col2.metric("👥 Total Teams",       df['batting_team'].nunique())
@@ -111,7 +136,6 @@ elif page == "🏏 Batting Stats":
     st.title("🏏 Batting Statistics")
     st.markdown("---")
 
-    # Recompute for filtered season
     batting = df_filtered.groupby('striker').agg(
         total_runs   = ('runs_off_bat', 'sum'),
         total_balls  = ('ball', 'count'),
@@ -275,6 +299,119 @@ elif page == "📈 Team Performance":
         labels={'season': 'Season', 'run_rate': 'Run Rate', 'batting_team': 'Team'}
     )
     st.plotly_chart(dark_layout(fig), use_container_width=True)
+
+# ══════════════════════════════════════════════════════════
+# PAGE 6 — ML MATCH PREDICTOR
+# ══════════════════════════════════════════════════════════
+elif page == "🤖 Match Predictor":
+    st.title("🤖 IPL Match Winner Predictor")
+    st.markdown("### Powered by XGBoost ML Model (58% accuracy | Macro F1: 0.55)")
+    st.markdown("---")
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.subheader("🏏 Select Match Details")
+
+        team1 = st.selectbox("Team 1", sorted(teams_list), index=0)
+        team2 = st.selectbox("Team 2", sorted(teams_list), index=1)
+        venue = st.selectbox("Venue", sorted(venues_list))
+        season = st.selectbox("Season", sorted(seasons_list, reverse=True))
+
+    with col2:
+        st.subheader("📊 Prediction")
+
+        if team1 == team2:
+            st.warning("⚠️ Please select two different teams!")
+        else:
+            if st.button("🔮 Predict Winner!", use_container_width=True):
+                try:
+                    # Encode inputs
+                    t1_enc = le_team.transform([team1])[0]
+                    t2_enc = le_team.transform([team2])[0]
+                    v_enc  = le_venue.transform([venue])[0]
+                    s_enc  = le_season.transform([str(season)])[0]
+
+                    # H2H stats
+                    h2h = ml_df[
+                        ((ml_df['team1'] == team1) & (ml_df['team2'] == team2)) |
+                        ((ml_df['team1'] == team2) & (ml_df['team2'] == team1))
+                    ]
+                    h2h_t1 = (h2h['winner'] == team1).sum()
+                    h2h_t2 = (h2h['winner'] == team2).sum()
+
+                
+
+                    # Win rates
+                    wr1 = team_winrate.get(team1, 0.5)
+                    wr2 = team_winrate.get(team2, 0.5)
+
+                    # Venue win rates from ml_df
+                    venue_matches_t1 = ml_df[(ml_df['team1'] == team1) & (ml_df['venue'] == venue)]
+                    venue_wr_t1 = (venue_matches_t1['winner'] == team1).mean() if len(venue_matches_t1) > 0 else 0.5
+
+                    venue_matches_t2 = ml_df[(ml_df['team1'] == team2) & (ml_df['venue'] == venue)]
+                    venue_wr_t2 = (venue_matches_t2['winner'] == team2).mean() if len(venue_matches_t2) > 0 else 0.5
+
+                    # Diff features
+                    rolling_wr_diff = wr1 - wr2
+                    venue_wr_diff   = venue_wr_t1 - venue_wr_t2
+                    h2h_diff        = h2h_t1 - h2h_t2
+
+                    # Build feature array — must match training order exactly
+                    input_features = np.array([[
+                             t1_enc, t2_enc, v_enc, s_enc,
+                             wr1, wr2, rolling_wr_diff,
+                             venue_wr_t1, venue_wr_t2, venue_wr_diff,
+                             h2h_t1, h2h_t2, h2h_diff
+                       ]])
+ 
+                    pred   = model.predict(input_features)[0]
+                    proba  = model.predict_proba(input_features)[0]
+
+                    winner     = team1 if pred == 1 else team2
+                    confidence = max(proba) * 100
+
+                    
+                    
+
+                    # Show result
+                    st.success(f"🏆 Predicted Winner: **{winner}**")
+                    st.metric("Confidence", f"{confidence:.1f}%")
+
+                    # Probability bar chart
+                    proba_df = pd.DataFrame({
+                        'Team': [team1, team2],
+                        'Probability': [proba[1], proba[0]]
+                    })
+
+                    fig = px.bar(
+                        proba_df,
+                        x='Team', y='Probability',
+                        color='Probability',
+                        color_continuous_scale='Greens',
+                        title='Win Probability by Team'
+                    )
+                    st.plotly_chart(dark_layout(fig), use_container_width=True)
+
+                except Exception as e:
+                    st.error(f"❌ Error: {str(e)}")
+
+    st.markdown("---")
+    st.subheader("📊 Head to Head Records")
+
+    if team1 != team2:
+        h2h = ml_df[
+            ((ml_df['team1'] == team1) & (ml_df['team2'] == team2)) |
+            ((ml_df['team1'] == team2) & (ml_df['team2'] == team1))
+        ]
+        t1_wins = (h2h['winner'] == team1).sum()
+        t2_wins = (h2h['winner'] == team2).sum()
+
+        c1, c2, c3 = st.columns(3)
+        c1.metric(f"{team1} Wins", t1_wins)
+        c2.metric("Total Matches", len(h2h))
+        c3.metric(f"{team2} Wins", t2_wins)
 
 # ── Footer ─────────────────────────────────────────────────
 st.markdown("---")
